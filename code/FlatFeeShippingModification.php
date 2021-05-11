@@ -22,7 +22,7 @@ class FlatFeeShippingModification extends Modification {
 				->first();
 
 		$rates = $this->getFlatShippingRates($country);
-		if ($rates && $rates->exists()) {
+		if (!$order->IsPickUp && $rates && $rates->exists()) {
 
 			//Pick the rate
 			$rate = $rates->find('ID', $value);
@@ -30,6 +30,16 @@ class FlatFeeShippingModification extends Modification {
 			if (!$rate || !$rate->exists()) {
 				$rate = $rates->first();
 			}
+
+			$existingMods = FlatFeeShippingModification::get()->filter("OrderID", $order->ID);
+			if ($existingMods->exists()) {
+				SS_Log::log("Shipping Modifier already exists. Deleting. Order #".$order->ID, SS_Log::DEBUG);
+				$existingMod = $existingMods->last();
+				if ($existingMod) {
+					$existingMod->delete();
+				}
+			}
+
 
 			//Generate the Modification now that we have picked the correct rate
 			$mod = new FlatFeeShippingModification();
@@ -41,6 +51,8 @@ class FlatFeeShippingModification extends Modification {
 			$mod->Value = $rate->ID;
 			$mod->FlatFeeShippingRateID = $rate->ID;
 			$mod->write();
+
+			SS_Log::log("Created Shipping Modification. ID: ".$mod->ID." Order: ".$order->ID." Price: ".$mod->Price, SS_Log::DEBUG);
 		}
 	}
 
