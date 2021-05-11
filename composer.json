@@ -14,8 +14,7 @@
 	"require":
 	{
 		"silverstripe/recipe-cms": "^4.0",
-		"swipestripe/swipestripe": "2.1.*",
-		"swipestripe/swipestripe-addresses": "2.1.*"
+		"swipestripe/swipestripe": "2.1.*"
 	},
 	"support": 
 	{
