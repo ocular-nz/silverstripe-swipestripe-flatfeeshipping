@@ -1,4 +1,21 @@
 <?php
+
+use SilverStripe\Control\Controller;
+use SilverStripe\Control\PjaxResponseNegotiator;
+use SilverStripe\Forms\DropdownField;
+use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\Form;
+use SilverStripe\Forms\FormAction;
+use SilverStripe\Forms\GridField\GridField;
+use SilverStripe\Forms\Tab;
+use SilverStripe\Forms\TabSet;
+use SilverStripe\Forms\TextField;
+use SilverStripe\ORM\DataExtension;
+use SilverStripe\ORM\DataObject;
+use SilverStripe\Security\Member;
+use SilverStripe\Security\Permission;
+use SilverStripe\View\ArrayData;
+
 /**
  * Tax rates that can be set in {@link SiteConfig}. Several flat rates can be set 
  * for any supported shipping country.
@@ -62,7 +79,7 @@ class FlatFeeShippingRate extends DataObject {
         return Permission::check('EDIT_FLATFEESHIPPING');
     }
 
-    public function canCreate($member = null)
+    public function canCreate($member = null, $context = [])
     {
         return Permission::check('EDIT_FLATFEESHIPPING');
     }
@@ -165,7 +182,7 @@ class FlatFeeShippingRate_Admin extends ShopAdmin {
 	);
 
 	private static $url_rule = 'ShopConfig/FlatFeeShipping';
-	protected static $url_priority = 110;
+	private static $url_priority = 110;
 	private static $menu_title = 'Shop Flat Fee Shipping Rates';
 
 	private static $url_handlers = array(

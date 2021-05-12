@@ -1,4 +1,9 @@
 <?php
+
+use SilverStripe\Core\Extension;
+use SilverStripe\ORM\FieldType\DBMoney;
+use SilverStripe\View\Requirements;
+
 /**
  * Form field that represents {@link FlatFeeShippingRate}s in the Checkout form.
  * 
@@ -12,7 +17,7 @@ class FlatFeeShippingModifierField extends ModificationField_Hidden {
 	/**
 	 * The amount this field represents e.g: 15% * order subtotal
 	 * 
-	 * @var Money
+	 * @var DBMoney
 	 */
 	protected $amount;
 
@@ -31,7 +36,7 @@ class FlatFeeShippingModifierField extends ModificationField_Hidden {
 	/**
 	 * Set the amount that this field represents.
 	 * 
-	 * @param Money $amount
+	 * @param DBMoney $amount
 	 */
 	public function setAmount(Price $amount) {
 		$this->amount = $amount;
