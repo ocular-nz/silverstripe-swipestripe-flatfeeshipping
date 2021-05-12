@@ -15,6 +15,7 @@ use SilverStripe\ORM\DataObject;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Permission;
 use SilverStripe\View\ArrayData;
+use SwipeStripe\Admin\ShopAdmin;
 
 /**
  * Tax rates that can be set in {@link SiteConfig}. Several flat rates can be set 

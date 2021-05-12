@@ -1,5 +1,9 @@
 <?php
 
+use SilverStripe\Forms\FieldList;
+use SilverStripe\View\Requirements;
+use SwipeStripe\Order\Modification;
+
 class FlatFeeShippingModification extends Modification {
 
 	private static $has_one = array(

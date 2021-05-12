@@ -3,6 +3,9 @@
 use SilverStripe\Core\Extension;
 use SilverStripe\ORM\FieldType\DBMoney;
 use SilverStripe\View\Requirements;
+use SwipeStripe\Form\ModificationField_Dropdown;
+use SwipeStripe\Form\ModificationField_Hidden;
+use SwipeStripe\Product\Price;
 
 /**
  * Form field that represents {@link FlatFeeShippingRate}s in the Checkout form.
@@ -86,7 +89,7 @@ class FlatFeeShippingModifierField_Multiple extends ModificationField_Dropdown {
 	/**
 	 * Set the amount that this field represents.
 	 * 
-	 * @param Money $amount
+	 * @param Price $amount
 	 */
 	public function setAmount(Price $amount) {
 		$this->amount = $amount;
