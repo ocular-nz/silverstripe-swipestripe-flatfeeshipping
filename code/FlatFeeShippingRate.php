@@ -16,6 +16,7 @@ use SilverStripe\Security\Member;
 use SilverStripe\Security\Permission;
 use SilverStripe\View\ArrayData;
 use SwipeStripe\Admin\ShopAdmin;
+use SwipeStripe\Admin\ShopConfig;
 
 /**
  * Tax rates that can be set in {@link SiteConfig}. Several flat rates can be set 
@@ -47,8 +48,8 @@ class FlatFeeShippingRate extends DataObject {
 	 * @var unknown_type
 	 */
 	private static $has_one = array(
-		'ShopConfig' => 'ShopConfig',
-		'Country' => 'Country_Shipping'
+		'ShopConfig' => ShopConfig::class,
+		'Country' => Country_Shipping::class
 	);
 
 	private static $summary_fields = array(

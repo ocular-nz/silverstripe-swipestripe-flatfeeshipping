@@ -1,13 +1,17 @@
 <?php
 
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\View\Requirements;
 use SwipeStripe\Order\Modification;
 
-class FlatFeeShippingModification extends Modification {
+class FlatFeeShippingModification extends Modification implements LoggerAwareInterface {
+
+	use LoggerAwareTrait;
 
 	private static $has_one = array(
-		'FlatFeeShippingRate' => 'FlatFeeShippingRate'
+		'FlatFeeShippingRate' => FlatFeeShippingRate::class
 	);
 
 	private static $defaults = array(
@@ -37,7 +41,7 @@ class FlatFeeShippingModification extends Modification {
 
 			$existingMods = FlatFeeShippingModification::get()->filter("OrderID", $order->ID);
 			if ($existingMods->exists()) {
-				SS_Log::log("Shipping Modifier already exists. Deleting. Order #".$order->ID, SS_Log::DEBUG);
+				$this->logger->debug("Shipping Modifier already exists. Deleting. Order #".$order->ID, []);
 				$existingMod = $existingMods->last();
 				if ($existingMod) {
 					$existingMod->delete();
@@ -56,7 +60,7 @@ class FlatFeeShippingModification extends Modification {
 			$mod->FlatFeeShippingRateID = $rate->ID;
 			$mod->write();
 
-			SS_Log::log("Created Shipping Modification. ID: ".$mod->ID." Order: ".$order->ID." Price: ".$mod->Price, SS_Log::DEBUG);
+			$this->logger->debug("Created Shipping Modification. ID: ".$mod->ID." Order: ".$order->ID." Price: ".$mod->Price, []);
 		}
 	}
 
