@@ -1,5 +1,7 @@
 <?php
 
+namespace SwipeStripeFlatFeeShipping;
+
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\PjaxResponseNegotiator;
 use SilverStripe\Forms\DropdownField;
@@ -28,6 +30,8 @@ use SwipeStripe\Admin\ShopConfig;
  * @subpackage shipping
  */
 class FlatFeeShippingRate extends DataObject {
+
+	private static $table_name = 'FlatFeeShippingRate';
 	
 	/**
 	 * Fields for this tax rate

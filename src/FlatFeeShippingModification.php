@@ -1,5 +1,7 @@
 <?php
 
+namespace SwipeStripeFlatFeeShipping;
+
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use SilverStripe\Forms\FieldList;

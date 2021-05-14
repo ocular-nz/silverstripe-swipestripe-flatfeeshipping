@@ -1,5 +1,7 @@
 <?php
 
+namespace SwipeStripeFlatFeeShipping;
+
 use SilverStripe\Core\Extension;
 use SilverStripe\ORM\FieldType\DBMoney;
 use SilverStripe\View\Requirements;
