@@ -12,6 +12,8 @@ class FlatFeeShippingModification extends Modification implements LoggerAwareInt
 
 	use LoggerAwareTrait;
 
+	private static $table_name = 'FlatFeeShippingModification';
+
 	private static $has_one = array(
 		'FlatFeeShippingRate' => FlatFeeShippingRate::class
 	);
