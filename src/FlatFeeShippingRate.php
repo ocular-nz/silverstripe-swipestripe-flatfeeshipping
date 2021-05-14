@@ -1,6 +1,6 @@
 <?php
 
-namespace SwipeStripeFlatFeeShipping;
+namespace FlatFeeShipping;
 
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\PjaxResponseNegotiator;

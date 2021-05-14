@@ -1,6 +1,6 @@
 <?php
 
-namespace SwipeStripeFlatFeeShipping;
+namespace FlatFeeShipping;
 
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
