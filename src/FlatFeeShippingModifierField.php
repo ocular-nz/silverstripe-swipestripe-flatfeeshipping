@@ -17,8 +17,9 @@ use SwipeStripe\Product\Price;
  * @package swipestripe
  * @subpackage shipping
  */
-class FlatFeeShippingModifierField extends ModificationField_Hidden {
-	
+class FlatFeeShippingModifierField extends ModificationField_Hidden
+{
+
 	/**
 	 * The amount this field represents e.g: 15% * order subtotal
 	 * 
@@ -32,28 +33,30 @@ class FlatFeeShippingModifierField extends ModificationField_Hidden {
 	 * @see FormField::FieldHolder()
 	 * @return String
 	 */
-	public function FieldHolder($properties = array()) {
-		Requirements::javascript(THIRDPARTY_DIR . '/jquery/jquery.js');
+	public function FieldHolder($properties = array())
+	{
 		Requirements::javascript('swipestripe-flatfeeshipping/javascript/FlatFeeShippingModifierField.js');
 		return $this->renderWith($this->template);
 	}
-	
+
 	/**
 	 * Set the amount that this field represents.
 	 * 
 	 * @param DBMoney $amount
 	 */
-	public function setAmount(Price $amount) {
+	public function setAmount(Price $amount)
+	{
 		$this->amount = $amount;
 		return $this;
 	}
-	
+
 	/**
 	 * Return the amount for this tax rate for displaying in the {@link CheckoutForm}
 	 * 
 	 * @return String
 	 */
-	public function Description() {
+	public function Description()
+	{
 		return $this->amount->Nice();
 	}
 
@@ -62,13 +65,15 @@ class FlatFeeShippingModifierField extends ModificationField_Hidden {
 	 * 
 	 * @return Boolean True
 	 */
-	public function modifiesSubTotal() {
+	public function modifiesSubTotal()
+	{
 		return true;
 	}
 }
 
-class FlatFeeShippingModifierField_Multiple extends ModificationField_Dropdown {
-	
+class FlatFeeShippingModifierField_Multiple extends ModificationField_Dropdown
+{
+
 	/**
 	 * The amount this field represents e.g: 15% * order subtotal
 	 * 
@@ -82,28 +87,30 @@ class FlatFeeShippingModifierField_Multiple extends ModificationField_Dropdown {
 	 * @see FormField::FieldHolder()
 	 * @return String
 	 */
-	public function FieldHolder($properties = array()) {
-		Requirements::javascript(THIRDPARTY_DIR . '/jquery/jquery.js');
+	public function FieldHolder($properties = array())
+	{
 		Requirements::javascript('swipestripe-flatfeeshipping/javascript/FlatFeeShippingModifierField.js');
 		return $this->renderWith($this->template);
 	}
-	
+
 	/**
 	 * Set the amount that this field represents.
 	 * 
 	 * @param Price $amount
 	 */
-	public function setAmount(Price $amount) {
+	public function setAmount(Price $amount)
+	{
 		$this->amount = $amount;
 		return $this;
 	}
-	
+
 	/**
 	 * Return the amount for this tax rate for displaying in the {@link CheckoutForm}
 	 * 
 	 * @return String
 	 */
-	public function Description() {
+	public function Description()
+	{
 		return $this->amount->Nice();
 	}
 
@@ -113,15 +120,17 @@ class FlatFeeShippingModifierField_Multiple extends ModificationField_Dropdown {
 	 * @see ModificationField_Dropdown::modifiesSubTotal()
 	 * @return Boolean True
 	 */
-	public function modifiesSubTotal() {
+	public function modifiesSubTotal()
+	{
 		return true;
 	}
 }
 
-class FlatFeeShippingModifierField_Extension extends Extension {
+class FlatFeeShippingModifierField_Extension extends Extension
+{
 
-	public function updateFields($fields) {
-		Requirements::javascript(THIRDPARTY_DIR . '/jquery/jquery.js');
+	public function updateFields($fields)
+	{
 		Requirements::javascript(THIRDPARTY_DIR . '/jquery-entwine/dist/jquery.entwine-dist.js');
 		Requirements::javascript('swipestripe-flatfeeshipping/javascript/FlatFeeShippingModifierField.js');
 	}

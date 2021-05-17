@@ -1,0 +1,7 @@
+---
+Name: flatfeeshipping-legacy
+---
+SilverStripe\ORM\DatabaseAdmin:
+  classname_value_remapping:
+    FlatFeeShippingModification: FlatFeeShipping\FlatFeeShippingModification
+    FlatFeeShippingRate: FlatFeeShipping\FlatFeeShippingRate
