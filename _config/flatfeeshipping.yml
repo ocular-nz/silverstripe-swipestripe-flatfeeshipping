@@ -2,9 +2,9 @@
 name: SwipeStripe Flat Fee Shipping
 ---
 
-ShopConfig:
+SwipeStripe\Admin\ShopConfig:
   extensions: 
-    - 'FlatFeeShippingRate_Extension'
-OrderForm:
+    - 'FlatFeeShipping\FlatFeeShippingRate_Extension'
+SwipeStripe\Form\OrderForm:
   extensions: 
-    - 'FlatFeeShippingModifierField_Extension'
+    - 'FlatFeeShipping\FlatFeeShippingModifierField_Extension'

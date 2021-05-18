@@ -14,6 +14,7 @@ use SilverStripe\Forms\TabSet;
 use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\DataExtension;
 use SilverStripe\ORM\DataObject;
+use SilverStripe\ORM\ValidationResult;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Permission;
 use SilverStripe\View\ArrayData;
@@ -296,7 +297,7 @@ class FlatFeeShippingRate_Admin extends ShopAdmin {
 		$config = ShopConfig::get()->First();
 		$form->saveInto($config);
 		$config->write();
-		$form->sessionMessage('Saved Flat Fee Shipping Settings', 'good');
+		$form->sessionMessage('Saved Flat Fee Shipping Settings', ValidationResult::TYPE_GOOD);
 
 		$controller = $this;
 		$responseNegotiator = new PjaxResponseNegotiator(
