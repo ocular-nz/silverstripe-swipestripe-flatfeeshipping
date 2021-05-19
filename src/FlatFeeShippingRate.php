@@ -18,8 +18,10 @@ use SilverStripe\ORM\ValidationResult;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Permission;
 use SilverStripe\View\ArrayData;
+use SwipeStripe\Admin\PriceField;
 use SwipeStripe\Admin\ShopAdmin;
 use SwipeStripe\Admin\ShopConfig;
+use SwipeStripe\Product\Price;
 
 /**
  * Tax rates that can be set in {@link SiteConfig}. Several flat rates can be set 
@@ -30,10 +32,11 @@ use SwipeStripe\Admin\ShopConfig;
  * @package swipestripe
  * @subpackage shipping
  */
-class FlatFeeShippingRate extends DataObject {
+class FlatFeeShippingRate extends DataObject
+{
 
 	private static $table_name = 'FlatFeeShippingRate';
-	
+
 	/**
 	 * Fields for this tax rate
 	 * 
@@ -44,7 +47,7 @@ class FlatFeeShippingRate extends DataObject {
 		'Description' => 'Varchar',
 		'Price' => 'Decimal(19,4)'
 	);
-	
+
 	/**
 	 * Tax rates are associated with SiteConfigs.
 	 * 
@@ -64,43 +67,46 @@ class FlatFeeShippingRate extends DataObject {
 		'Country.Title' => 'Country'
 	);
 
-    public function providePermissions()
-    {
-        return array(
-            'EDIT_FLATFEESHIPPING' => 'Edit Flat Fee Shipping',
-        );
-    }
+	public function providePermissions()
+	{
+		return array(
+			'EDIT_FLATFEESHIPPING' => 'Edit Flat Fee Shipping',
+		);
+	}
 
-    public function canEdit($member = null)
-    {
-        return Permission::check('EDIT_FLATFEESHIPPING');
-    }
+	public function canEdit($member = null)
+	{
+		return Permission::check('EDIT_FLATFEESHIPPING');
+	}
 
-    public function canView($member = null)
-    {
-        return true;
-    }
+	public function canView($member = null)
+	{
+		return true;
+	}
 
-    public function canDelete($member = null)
-    {
-        return Permission::check('EDIT_FLATFEESHIPPING');
-    }
+	public function canDelete($member = null)
+	{
+		return Permission::check('EDIT_FLATFEESHIPPING');
+	}
 
-    public function canCreate($member = null, $context = [])
-    {
-        return Permission::check('EDIT_FLATFEESHIPPING');
-    }
-	
+	public function canCreate($member = null, $context = [])
+	{
+		return Permission::check('EDIT_FLATFEESHIPPING');
+	}
+
 	/**
 	 * Field for editing a {@link FlatFeeShippingRate}.
 	 * 
 	 * @return FieldSet
 	 */
-	public function getCMSFields() {
+	public function getCMSFields()
+	{
 
 		return new FieldList(
-			$rootTab = new TabSet('Root',
-				$tabMain = new Tab('ShippingRate',
+			$rootTab = new TabSet(
+				'Root',
+				$tabMain = new Tab(
+					'ShippingRate',
 					TextField::create('Title', _t('FlatFeeShippingRate.TITLE', 'Title')),
 					TextField::create('Description', _t('FlatFeeShippingRate.DESCRIPTION', 'Description'))
 						->setRightTitle('Label used in checkout form.'),
@@ -110,27 +116,30 @@ class FlatFeeShippingRate extends DataObject {
 			)
 		);
 	}
-	
+
 	/**
 	 * Label for using on {@link FlatFeeShippingModifierField}s.
 	 * 
 	 * @see FlatFeeShippingModifierField
 	 * @return String
 	 */
-	public function Label() {
+	public function Label()
+	{
 		return $this->Description . ' - ' . $this->Price()->Nice();
 	}
-	
+
 	/**
 	 * Summary of the current tax rate
 	 * 
 	 * @return String
 	 */
-	public function SummaryOfPrice() {
+	public function SummaryOfPrice()
+	{
 		return $this->Amount()->Nice();
 	}
 
-	public function Amount() {
+	public function Amount()
+	{
 
 		// TODO: Multi currency
 
@@ -148,13 +157,13 @@ class FlatFeeShippingRate extends DataObject {
 	 * 
 	 * @return Price
 	 */
-	public function Price() {
-		
+	public function Price()
+	{
+
 		$amount = $this->Amount();
 		$this->extend('updatePrice', $amount);
 		return $amount;
 	}
-	
 }
 
 /**
@@ -165,7 +174,8 @@ class FlatFeeShippingRate extends DataObject {
  * @package swipestripe
  * @subpackage shipping
  */
-class FlatFeeShippingRate_Extension extends DataExtension {
+class FlatFeeShippingRate_Extension extends DataExtension
+{
 
 	/**
 	 * Attach {@link FlatFeeShippingRate}s to {@link SiteConfig}.
@@ -175,13 +185,13 @@ class FlatFeeShippingRate_Extension extends DataExtension {
 	private static $has_many = array(
 		'FlatFeeShippingRates' => 'FlatFeeShippingRate'
 	);
-
 }
 
-class FlatFeeShippingRate_Admin extends ShopAdmin {
+class FlatFeeShippingRate_Admin extends ShopAdmin
+{
 
 	private static $tree_class = 'ShopConfig';
-	
+
 	private static $allowed_actions = array(
 		'FlatFeeShippingSettings',
 		'FlatFeeShippingSettingsForm',
@@ -197,12 +207,14 @@ class FlatFeeShippingRate_Admin extends ShopAdmin {
 		'ShopConfig/FlatFeeShipping' => 'FlatFeeShippingSettings'
 	);
 
-	public function init() {
+	protected function init()
+	{
 		parent::init();
-		$this->modelClass = 'ShopConfig';
+		$this->modelClass = ShopConfig::class;
 	}
 
-	public function Breadcrumbs($unlinked = false) {
+	public function Breadcrumbs($unlinked = false)
+	{
 
 		$request = $this->getRequest();
 		$items = parent::Breadcrumbs($unlinked);
@@ -217,44 +229,49 @@ class FlatFeeShippingRate_Admin extends ShopAdmin {
 		return $items;
 	}
 
-	public function SettingsForm($request = null) {
+	public function SettingsForm($request = null)
+	{
 		return $this->FlatFeeShippingSettingsForm();
 	}
 
-	public function FlatFeeShippingSettings($request) {
+	public function FlatFeeShippingSettings($request)
+	{
 
 		if ($request->isAjax()) {
 			$controller = $this;
 			$responseNegotiator = new PjaxResponseNegotiator(
 				array(
-					'CurrentForm' => function() use(&$controller) {
+					'CurrentForm' => function () use (&$controller) {
 						return $controller->FlatFeeShippingSettingsForm()->forTemplate();
 					},
-					'Content' => function() use(&$controller) {
+					'Content' => function () use (&$controller) {
 						return $controller->renderWith('ShopAdminSettings_Content');
 					},
-					'Breadcrumbs' => function() use (&$controller) {
+					'Breadcrumbs' => function () use (&$controller) {
 						return $controller->renderWith('CMSBreadcrumbs');
 					},
-					'default' => function() use(&$controller) {
+					'default' => function () use (&$controller) {
 						return $controller->renderWith($controller->getViewer('show'));
 					}
 				),
 				$this->response
-			); 
+			);
 			return $responseNegotiator->respond($this->getRequest());
 		}
 
 		return $this->renderWith('ShopAdminSettings');
 	}
 
-	public function FlatFeeShippingSettingsForm() {
+	public function FlatFeeShippingSettingsForm()
+	{
 
 		$shopConfig = ShopConfig::get()->First();
 
 		$fields = new FieldList(
-			$rootTab = new TabSet('Root',
-				$tabMain = new Tab('Shipping',
+			$rootTab = new TabSet(
+				'Root',
+				$tabMain = new Tab(
+					'Shipping',
 					GridField::create(
 						'FlatFeeShippingRates',
 						'FlatFeeShippingRates',
@@ -281,7 +298,7 @@ class FlatFeeShippingRate_Admin extends ShopAdmin {
 		$form->setTemplate('ShopAdminSettings_EditForm');
 		$form->setAttribute('data-pjax-fragment', 'CurrentForm');
 		$form->addExtraClass('cms-content cms-edit-form center ss-tabset');
-		if($form->Fields()->hasTabset()) $form->Fields()->findOrMakeTab('Root')->setTemplate('CMSTabSet');
+		if ($form->Fields()->hasTabset()) $form->Fields()->findOrMakeTab('Root')->setTemplate('CMSTabSet');
 		$form->setFormAction(Controller::join_links($this->Link($this->sanitiseClassName($this->modelClass)), 'FlatFeeShipping/FlatFeeShippingSettingsForm'));
 
 		$form->loadDataFrom($shopConfig);
@@ -289,7 +306,8 @@ class FlatFeeShippingRate_Admin extends ShopAdmin {
 		return $form;
 	}
 
-	public function saveFlatFeeShippingSettings($data, $form) {
+	public function saveFlatFeeShippingSettings($data, $form)
+	{
 
 		//Hack for LeftAndMain::getRecord()
 		self::$tree_class = 'ShopConfig';
@@ -302,26 +320,27 @@ class FlatFeeShippingRate_Admin extends ShopAdmin {
 		$controller = $this;
 		$responseNegotiator = new PjaxResponseNegotiator(
 			array(
-				'CurrentForm' => function() use(&$controller) {
+				'CurrentForm' => function () use (&$controller) {
 					//return $controller->renderWith('ShopAdminSettings_Content');
 					return $controller->FlatFeeShippingSettingsForm()->forTemplate();
 				},
-				'Content' => function() use(&$controller) {
+				'Content' => function () use (&$controller) {
 					//return $controller->renderWith($controller->getTemplatesWithSuffix('_Content'));
 				},
-				'Breadcrumbs' => function() use (&$controller) {
+				'Breadcrumbs' => function () use (&$controller) {
 					return $controller->renderWith('CMSBreadcrumbs');
 				},
-				'default' => function() use(&$controller) {
+				'default' => function () use (&$controller) {
 					return $controller->renderWith($controller->getViewer('show'));
 				}
 			),
 			$this->response
-		); 
+		);
 		return $responseNegotiator->respond($this->getRequest());
 	}
 
-	public function getSnippet() {
+	public function getSnippet()
+	{
 
 		if (!$member = Member::currentUser()) return false;
 		if (!Permission::check('CMS_ACCESS_' . get_class($this), 'any', $member)) return false;
@@ -333,5 +352,4 @@ class FlatFeeShippingRate_Admin extends ShopAdmin {
 			'LinkTitle' => 'Edit flat fee shipping rates'
 		))->renderWith('ShopAdmin_Snippet');
 	}
-
 }
