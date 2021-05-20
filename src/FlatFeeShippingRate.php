@@ -17,6 +17,7 @@ use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\ValidationResult;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Permission;
+use SilverStripe\Security\Security;
 use SilverStripe\View\ArrayData;
 use SwipeStripe\Admin\PriceField;
 use SwipeStripe\Admin\ShopAdmin;
@@ -159,7 +160,6 @@ class FlatFeeShippingRate extends DataObject
 	 */
 	public function Price()
 	{
-
 		$amount = $this->Amount();
 		$this->extend('updatePrice', $amount);
 		return $amount;
@@ -342,7 +342,7 @@ class FlatFeeShippingRate_Admin extends ShopAdmin
 	public function getSnippet()
 	{
 
-		if (!$member = Member::currentUser()) return false;
+		if (!$member = Security::getCurrentUser()) return false;
 		if (!Permission::check('CMS_ACCESS_' . get_class($this), 'any', $member)) return false;
 
 		return $this->customise(array(
@@ -350,6 +350,6 @@ class FlatFeeShippingRate_Admin extends ShopAdmin
 			'Help' => 'Create flat fee shipping rates',
 			'Link' => Controller::join_links($this->Link('ShopConfig'), 'FlatFeeShipping'),
 			'LinkTitle' => 'Edit flat fee shipping rates'
-		))->renderWith('ShopAdmin_Snippet');
+		))->renderWith('Includes\ShopAdmin_Snippet');
 	}
 }

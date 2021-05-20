@@ -2,15 +2,22 @@
 
 namespace FlatFeeShipping;
 
+use Addresses\Country_Shipping;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
+use Psr\Log\LoggerInterface;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\View\Requirements;
 use SwipeStripe\Order\Modification;
 
-class FlatFeeShippingModification extends Modification implements LoggerAwareInterface {
+class FlatFeeShippingModification extends Modification implements LoggerAwareInterface
+{
 
 	use LoggerAwareTrait;
+
+	private static $dependencies = [
+		'Logger' => '%$' . LoggerInterface::class,
+	];
 
 	private static $table_name = 'FlatFeeShippingModification';
 
@@ -25,13 +32,14 @@ class FlatFeeShippingModification extends Modification implements LoggerAwareInt
 
 	private static $default_sort = 'SortOrder ASC';
 
-	public function add($order, $value = null) {
+	public function add($order, $value = null)
+	{
 
 		$this->OrderID = $order->ID;
 
 		$country = Country_Shipping::get()
-				->filter("Code",$order->ShippingCountryCode)
-				->first();
+			->filter("Code", $order->ShippingCountryCode)
+			->first();
 
 		$rates = $this->getFlatShippingRates($country);
 		if (!$order->IsPickUp && $rates && $rates->exists()) {
@@ -45,7 +53,7 @@ class FlatFeeShippingModification extends Modification implements LoggerAwareInt
 
 			$existingMods = FlatFeeShippingModification::get()->filter("OrderID", $order->ID);
 			if ($existingMods->exists()) {
-				$this->logger->debug("Shipping Modifier already exists. Deleting. Order #".$order->ID, []);
+				$this->logger->debug("Shipping Modifier already exists. Deleting. Order #" . $order->ID, []);
 				$existingMod = $existingMods->last();
 				if ($existingMod) {
 					$existingMod->delete();
@@ -64,11 +72,12 @@ class FlatFeeShippingModification extends Modification implements LoggerAwareInt
 			$mod->FlatFeeShippingRateID = $rate->ID;
 			$mod->write();
 
-			$this->logger->debug("Created Shipping Modification. ID: ".$mod->ID." Order: ".$order->ID." Price: ".$mod->Price, []);
+			$this->logger->debug("Created Shipping Modification. ID: " . $mod->ID . " Order: " . $order->ID . " Price: " . $mod->Price, []);
 		}
 	}
 
-	public function getFlatShippingRates(Country_Shipping $country) {
+	public function getFlatShippingRates(Country_Shipping $country)
+	{
 		//Get valid rates for this country
 		$countryID = ($country && $country->exists()) ? $country->ID : null;
 		$rates = FlatFeeShippingRate::get()->filter("CountryID", $countryID);
@@ -76,7 +85,8 @@ class FlatFeeShippingModification extends Modification implements LoggerAwareInt
 		return $rates;
 	}
 
-	public function getFormFields() {
+	public function getFormFields()
+	{
 
 		$fields = new FieldList();
 		$rate = $this->FlatFeeShippingRate();
@@ -90,8 +100,7 @@ class FlatFeeShippingModification extends Modification implements LoggerAwareInt
 					_t('FlatFeeShippingModification.FIELD_LABEL', 'Shipping'),
 					$rates->map('ID', 'Label')->toArray()
 				)->setValue($rate->ID);
-			}
-			else {
+			} else {
 				$newRate = $rates->first();
 				$field = FlatFeeShippingModifierField::create(
 					$this,
