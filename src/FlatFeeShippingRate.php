@@ -198,13 +198,13 @@ class FlatFeeShippingRate_Admin extends ShopAdmin
 		'saveFlatFeeShippingSettings'
 	);
 
-	private static $url_rule = 'ShopConfig/FlatFeeShipping';
+	private static $url_rule = 'SwipeStripe-Admin-ShopConfig/FlatFeeShipping';
 	private static $url_priority = 110;
 	private static $menu_title = 'Shop Flat Fee Shipping Rates';
 
 	private static $url_handlers = array(
-		'ShopConfig/FlatFeeShipping/FlatFeeShippingSettingsForm' => 'FlatFeeShippingSettingsForm',
-		'ShopConfig/FlatFeeShipping' => 'FlatFeeShippingSettings'
+		'SwipeStripe-Admin-ShopConfig/FlatFeeShipping/FlatFeeShippingSettingsForm' => 'FlatFeeShippingSettingsForm',
+		'SwipeStripe-Admin-ShopConfig/FlatFeeShipping' => 'FlatFeeShippingSettings'
 	);
 
 	protected function init()
@@ -245,7 +245,7 @@ class FlatFeeShippingRate_Admin extends ShopAdmin
 						return $controller->FlatFeeShippingSettingsForm()->forTemplate();
 					},
 					'Content' => function () use (&$controller) {
-						return $controller->renderWith('ShopAdminSettings_Content');
+						return $controller->renderWith('Includes/ShopAdminSettings_Content');
 					},
 					'Breadcrumbs' => function () use (&$controller) {
 						return $controller->renderWith('CMSBreadcrumbs');
@@ -321,7 +321,7 @@ class FlatFeeShippingRate_Admin extends ShopAdmin
 		$responseNegotiator = new PjaxResponseNegotiator(
 			array(
 				'CurrentForm' => function () use (&$controller) {
-					//return $controller->renderWith('ShopAdminSettings_Content');
+					//return $controller->renderWith('Includes/ShopAdminSettings_Content');
 					return $controller->FlatFeeShippingSettingsForm()->forTemplate();
 				},
 				'Content' => function () use (&$controller) {
@@ -348,8 +348,8 @@ class FlatFeeShippingRate_Admin extends ShopAdmin
 		return $this->customise(array(
 			'Title' => 'Flat Fee Shipping Management',
 			'Help' => 'Create flat fee shipping rates',
-			'Link' => Controller::join_links($this->Link('ShopConfig'), 'FlatFeeShipping'),
+			'Link' => Controller::join_links($this->Link($this->sanitiseClassName(ShopConfig::class)), 'FlatFeeShipping'),
 			'LinkTitle' => 'Edit flat fee shipping rates'
-		))->renderWith('Includes\ShopAdmin_Snippet');
+		))->renderWith('Includes/ShopAdmin_Snippet');
 	}
 }
