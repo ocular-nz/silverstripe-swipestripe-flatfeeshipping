@@ -2,6 +2,7 @@
 
 namespace FlatFeeShipping;
 
+use Addresses\Country_Shipping;
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\PjaxResponseNegotiator;
 use SilverStripe\Forms\DropdownField;
@@ -19,6 +20,7 @@ use SilverStripe\Security\Member;
 use SilverStripe\Security\Permission;
 use SilverStripe\Security\Security;
 use SilverStripe\View\ArrayData;
+use SwipeStripe\Admin\GridFieldConfig_HasManyRelationEditor;
 use SwipeStripe\Admin\PriceField;
 use SwipeStripe\Admin\ShopAdmin;
 use SwipeStripe\Admin\ShopConfig;
@@ -132,11 +134,11 @@ class FlatFeeShippingRate extends DataObject
 	/**
 	 * Summary of the current tax rate
 	 * 
-	 * @return String
+	 * @return DBField
 	 */
 	public function SummaryOfPrice()
 	{
-		return $this->Amount()->Nice();
+		return $this->Amount();
 	}
 
 	public function Amount()
@@ -183,7 +185,7 @@ class FlatFeeShippingRate_Extension extends DataExtension
 	 * @see DataObjectDecorator::extraStatics()
 	 */
 	private static $has_many = array(
-		'FlatFeeShippingRates' => 'FlatFeeShippingRate'
+		'FlatFeeShippingRates' => FlatFeeShippingRate::class
 	);
 }
 
@@ -248,7 +250,7 @@ class FlatFeeShippingRate_Admin extends ShopAdmin
 						return $controller->renderWith('Includes/ShopAdminSettings_Content');
 					},
 					'Breadcrumbs' => function () use (&$controller) {
-						return $controller->renderWith('CMSBreadcrumbs');
+						return $controller->renderWith('SilverStripe/Admin/CMSBreadcrumbs');
 					},
 					'default' => function () use (&$controller) {
 						return $controller->renderWith($controller->getViewer('show'));
@@ -259,7 +261,7 @@ class FlatFeeShippingRate_Admin extends ShopAdmin
 			return $responseNegotiator->respond($this->getRequest());
 		}
 
-		return $this->renderWith('ShopAdminSettings');
+		return $this->renderWith('SwipeStripe/Admin/ShopAdminSettings');
 	}
 
 	public function FlatFeeShippingSettingsForm()
@@ -285,8 +287,7 @@ class FlatFeeShippingRate_Admin extends ShopAdmin
 		$actions = new FieldList();
 		$actions->push(FormAction::create('saveFlatFeeShippingSettings', _t('GridFieldDetailForm.Save', 'Save'))
 			->setUseButtonTag(true)
-			->addExtraClass('ss-ui-action-constructive')
-			->setAttribute('data-icon', 'add'));
+			->addExtraClass('btn-primary font-icon-save'));
 
 		$form = new Form(
 			$this,
@@ -295,7 +296,7 @@ class FlatFeeShippingRate_Admin extends ShopAdmin
 			$actions
 		);
 
-		$form->setTemplate('ShopAdminSettings_EditForm');
+		$form->setTemplate('Includes/ShopAdminSettings_EditForm');
 		$form->setAttribute('data-pjax-fragment', 'CurrentForm');
 		$form->addExtraClass('cms-content cms-edit-form center ss-tabset');
 		if ($form->Fields()->hasTabset()) $form->Fields()->findOrMakeTab('Root')->setTemplate('CMSTabSet');
@@ -328,7 +329,7 @@ class FlatFeeShippingRate_Admin extends ShopAdmin
 					//return $controller->renderWith($controller->getTemplatesWithSuffix('_Content'));
 				},
 				'Breadcrumbs' => function () use (&$controller) {
-					return $controller->renderWith('CMSBreadcrumbs');
+					return $controller->renderWith('SilverStripe/Admin/CMSBreadcrumbs');
 				},
 				'default' => function () use (&$controller) {
 					return $controller->renderWith($controller->getViewer('show'));
