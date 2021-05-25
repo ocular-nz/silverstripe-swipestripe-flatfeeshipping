@@ -192,7 +192,7 @@ class FlatFeeShippingRate_Extension extends DataExtension
 class FlatFeeShippingRate_Admin extends ShopAdmin
 {
 
-	private static $tree_class = 'ShopConfig';
+	private static $tree_class = ShopConfig::class;
 
 	private static $allowed_actions = array(
 		'FlatFeeShippingSettings',
@@ -250,7 +250,7 @@ class FlatFeeShippingRate_Admin extends ShopAdmin
 						return $controller->renderWith('Includes/ShopAdminSettings_Content');
 					},
 					'Breadcrumbs' => function () use (&$controller) {
-						return $controller->renderWith('SilverStripe/Admin/CMSBreadcrumbs');
+						return $controller->renderWith('SilverStripe/Admin/Includes/CMSBreadcrumbs');
 					},
 					'default' => function () use (&$controller) {
 						return $controller->renderWith($controller->getViewer('show'));
@@ -329,7 +329,7 @@ class FlatFeeShippingRate_Admin extends ShopAdmin
 					//return $controller->renderWith($controller->getTemplatesWithSuffix('_Content'));
 				},
 				'Breadcrumbs' => function () use (&$controller) {
-					return $controller->renderWith('SilverStripe/Admin/CMSBreadcrumbs');
+					return $controller->renderWith('SilverStripe/Admin/Includes/CMSBreadcrumbs');
 				},
 				'default' => function () use (&$controller) {
 					return $controller->renderWith($controller->getViewer('show'));

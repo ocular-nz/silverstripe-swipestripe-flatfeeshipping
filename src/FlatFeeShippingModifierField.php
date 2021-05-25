@@ -131,7 +131,6 @@ class FlatFeeShippingModifierField_Extension extends Extension
 
 	public function updateFields($fields)
 	{
-		Requirements::javascript(THIRDPARTY_DIR . '/jquery-entwine/dist/jquery.entwine-dist.js');
 		Requirements::javascript('swipestripe-flatfeeshipping/javascript/FlatFeeShippingModifierField.js');
 	}
 }
