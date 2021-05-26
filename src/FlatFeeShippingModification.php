@@ -6,6 +6,7 @@ use Addresses\Country_Shipping;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
+use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\View\Requirements;
 use SwipeStripe\Order\Modification;
@@ -72,7 +73,9 @@ class FlatFeeShippingModification extends Modification implements LoggerAwareInt
 			$mod->FlatFeeShippingRateID = $rate->ID;
 			$mod->write();
 
-			$this->logger->debug("Created Shipping Modification. ID: " . $mod->ID . " Order: " . $order->ID . " Price: " . $mod->Price, []);
+			/** @var LoggerInterface $logger */
+			$logger = Injector::inst()->get(LoggerInterface::class);
+			$logger->debug("Created Shipping Modification. ID: " . $mod->ID . " Order: " . $order->ID . " Price: " . $mod->Price, []);
 		}
 	}
 

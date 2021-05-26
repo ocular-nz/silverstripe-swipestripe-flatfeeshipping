@@ -11,16 +11,19 @@
 			"email": "frankmullenger@gmail.com"
 		}
 	],
-	"require":
-	{
+	"require": {
 		"silverstripe/recipe-cms": "^4.0",
 		"swipestripe/swipestripe": "2.1.*"
 	},
-	"support": 
-	{
+	"support": {
 		"email": "info@swipestripe.com",
 		"irc": "irc://irc.freenode.org/silverstripe",
 		"forum": "http://www.silverstripe.org/e-commerce-modules/",
 		"issues": "https://github.com/swipestripe/silverstripe-swipestripe-flatfeeshipping/issues"
+	},
+	"extra": {
+		"expose": [
+			"javascript"
+		]
 	}
 }
