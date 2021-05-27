@@ -42,8 +42,10 @@ class FlatFeeShippingModification extends Modification implements LoggerAwareInt
 			->filter("Code", $order->ShippingCountryCode)
 			->first();
 
-		$rates = $this->getFlatShippingRates($country);
-		if (!$order->IsPickUp && $rates && $rates->exists()) {
+		if (!empty($country)) {
+			$rates = $this->getFlatShippingRates($country);
+		}
+		if (!$order->IsPickUp && isset($rates) && $rates->exists()) {
 
 			//Pick the rate
 			$rate = $rates->find('ID', $value);

@@ -35,8 +35,9 @@ class FlatFeeShippingModifierField extends ModificationField_Hidden
 	 */
 	public function FieldHolder($properties = array())
 	{
+		echo $this->ID();
 		Requirements::javascript('swipestripe-flatfeeshipping/javascript/FlatFeeShippingModifierField.js');
-		return $this->renderWith($this->template);
+		return parent::FieldHolder($properties);
 	}
 
 	/**
@@ -90,7 +91,7 @@ class FlatFeeShippingModifierField_Multiple extends ModificationField_Dropdown
 	public function FieldHolder($properties = array())
 	{
 		Requirements::javascript('swipestripe-flatfeeshipping/javascript/FlatFeeShippingModifierField.js');
-		return $this->renderWith($this->template);
+		return parent::FieldHolder($properties);
 	}
 
 	/**
