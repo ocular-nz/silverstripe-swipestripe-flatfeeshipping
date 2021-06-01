@@ -212,7 +212,7 @@ class FlatFeeShippingRate_Admin extends ShopAdmin
 	protected function init()
 	{
 		parent::init();
-		$this->modelClass = ShopConfig::class;
+		$this->modelTab = ShopConfig::class;
 	}
 
 	public function Breadcrumbs($unlinked = false)
@@ -225,7 +225,7 @@ class FlatFeeShippingRate_Admin extends ShopAdmin
 
 		$items->push(new ArrayData(array(
 			'Title' => 'Flat Fee Shipping',
-			'Link' => $this->Link(Controller::join_links($this->sanitiseClassName($this->modelClass), 'FlatFeeShipping'))
+			'Link' => $this->Link(Controller::join_links($this->sanitiseClassName($this->modelTab), 'FlatFeeShipping'))
 		)));
 
 		return $items;
@@ -270,9 +270,9 @@ class FlatFeeShippingRate_Admin extends ShopAdmin
 		$shopConfig = ShopConfig::get()->First();
 
 		$fields = new FieldList(
-			$rootTab = new TabSet(
+			new TabSet(
 				'Root',
-				$tabMain = new Tab(
+				new Tab(
 					'Shipping',
 					GridField::create(
 						'FlatFeeShippingRates',
@@ -287,7 +287,7 @@ class FlatFeeShippingRate_Admin extends ShopAdmin
 		$actions = new FieldList();
 		$actions->push(FormAction::create('saveFlatFeeShippingSettings', _t('GridFieldDetailForm.Save', 'Save'))
 			->setUseButtonTag(true)
-			->addExtraClass('btn-primary font-icon-save'));
+			->addExtraClass('btn-outline-primary font-icon-tick action'));
 
 		$form = new Form(
 			$this,
@@ -299,8 +299,8 @@ class FlatFeeShippingRate_Admin extends ShopAdmin
 		$form->setTemplate('Includes/ShopAdminSettings_EditForm');
 		$form->setAttribute('data-pjax-fragment', 'CurrentForm');
 		$form->addExtraClass('cms-content cms-edit-form center ss-tabset');
-		if ($form->Fields()->hasTabset()) $form->Fields()->findOrMakeTab('Root')->setTemplate('CMSTabSet');
-		$form->setFormAction(Controller::join_links($this->Link($this->sanitiseClassName($this->modelClass)), 'FlatFeeShipping/FlatFeeShippingSettingsForm'));
+		if ($form->Fields()->hasTabset()) $form->Fields()->findOrMakeTab('Root')->setTemplate('SilverStripe/Forms/CMSTabSet');
+		$form->setFormAction(Controller::join_links($this->Link($this->sanitiseClassName($this->modelTab)), 'FlatFeeShipping/FlatFeeShippingSettingsForm'));
 
 		$form->loadDataFrom($shopConfig);
 
@@ -311,7 +311,7 @@ class FlatFeeShippingRate_Admin extends ShopAdmin
 	{
 
 		//Hack for LeftAndMain::getRecord()
-		self::$tree_class = 'ShopConfig';
+		self::$tree_class = ShopConfig::class;
 
 		$config = ShopConfig::get()->First();
 		$form->saveInto($config);
@@ -335,7 +335,7 @@ class FlatFeeShippingRate_Admin extends ShopAdmin
 					return $controller->renderWith($controller->getViewer('show'));
 				}
 			),
-			$this->response
+			$this->getResponse()
 		);
 		return $responseNegotiator->respond($this->getRequest());
 	}
