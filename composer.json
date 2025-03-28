@@ -12,8 +12,8 @@
 		}
 	],
 	"require": {
-		"silverstripe/recipe-cms": "^4.0",
-		"swipestripe/swipestripe": "2.1.*"
+		"silverstripe/recipe-cms": "^5.0|^6.0",
+		"swipestripe/swipestripe": "dev-v5"
 	},
 	"support": {
 		"email": "info@swipestripe.com",
