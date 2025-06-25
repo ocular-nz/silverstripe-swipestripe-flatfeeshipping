@@ -13,13 +13,13 @@ use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\Tab;
 use SilverStripe\Forms\TabSet;
 use SilverStripe\Forms\TextField;
-use SilverStripe\ORM\DataExtension;
+use SilverStripe\Core\Extension;
 use SilverStripe\ORM\DataObject;
-use SilverStripe\ORM\ValidationResult;
+use SilverStripe\Core\Validation\ValidationResult;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Permission;
 use SilverStripe\Security\Security;
-use SilverStripe\View\ArrayData;
+use SilverStripe\Model\ArrayData;
 use SwipeStripe\Admin\GridFieldConfig_HasManyRelationEditor;
 use SwipeStripe\Admin\PriceField;
 use SwipeStripe\Admin\ShopAdmin;
@@ -176,7 +176,7 @@ class FlatFeeShippingRate extends DataObject
  * @package swipestripe
  * @subpackage shipping
  */
-class FlatFeeShippingRate_Extension extends DataExtension
+class FlatFeeShippingRate_Extension extends Extension
 {
 
 	/**
